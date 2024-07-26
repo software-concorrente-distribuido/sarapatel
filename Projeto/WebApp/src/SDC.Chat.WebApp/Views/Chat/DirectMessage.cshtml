@@ -1,33 +1,24 @@
 ﻿@model DirectMessageViewModel;
 
 @{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Chat Privado";
 }
 
 <div class="container">
-    <div class="row p-1">
-        <div class="col-1">Mensagem:</div>
-        <div class="col-5"><input type="text" class="w-100" id="messageInput" /></div>
+    <h2 class="text-center">@ViewData["Title"]</h2>
+    <div class="chat-box">
+        <ul id="messagesList" class="list-unstyled">
+            @foreach(var message in Model.Messages)
+            {
+                <li class="text-end">
+                    <strong>@message.Username</strong>  <small>@message.Date</small><br>@message.Content
+                </li>
+            }
+        </ul>
     </div>
-    <div class="row p-1">
-        <div class="col-6 text-end">
-            <input type="button" id="sendButton" value="Enviar mensagem" class="btn btn-lg btn-primary" />
-        </div>
-    </div>
-    <div class="row p-1">
-        <div class="col-6">
-            <hr />
-        </div>
-    </div>
-    <div class="row p-1">
-        <div class="col-6">
-            <ul id="messagesList">
-                @foreach(var message in Model.Messages)
-                {
-                    <li>@message.Username disse @message.Content em @message.Date</li>
-                }
-            </ul>
-        </div>
+    <div class="input-group mb-3">
+        <input type="text" class="form-control" id="messageInput" placeholder="Digite sua mensagem">
+        <button class="btn btn-primary" id="sendButton" type="button">Enviar</button>
     </div>
 </div>
 

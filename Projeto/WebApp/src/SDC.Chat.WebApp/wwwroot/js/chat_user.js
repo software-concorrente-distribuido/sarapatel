@@ -1,28 +1,20 @@
 ﻿"use strict";
 
 var groupId = document.getElementById("groupId").value;
+var userId = document.getElementById("userId").value;
 
 var connection = new signalR.HubConnectionBuilder().withUrl("/chatHub?groupId=" + groupId).build();
 
 document.getElementById("sendButton").disabled = true;
 
-connection.on("ReceiveMessage", function (user, message, data) {
+connection.on("ReceiveMessage", function (user, message, date) {
     var li = document.createElement("li");
+    li.classList.add("text-end");
+    li.innerHTML = `<strong>${user}</strong>   <small>${date}</small> <br> ${message} `;
     document.getElementById("messagesList").appendChild(li);
-    li.textContent = `${user} disse ${message} em ${data}`;
-});
-
-connection.onclose(async () => {
-    console.log("Disconnected")
-
-    try {
-        console.log("Trying to reconnect");
-        await connection.start();
-        console.log("Reconnected");
-    } catch (err) {
-        console.log(err);
-        setTimeout(start, 5000);
-    }
+    
+    var chatBox = document.querySelector('.chat-box');
+    chatBox.scrollTop = chatBox.scrollHeight;
 });
 
 connection.start().then(function () {
@@ -33,9 +25,18 @@ connection.start().then(function () {
 
 document.getElementById("sendButton").addEventListener("click", function (event) {
     var message = document.getElementById("messageInput").value;
-    var userId = document.getElementById("userId").value;
-    connection.invoke("SendDirectMessage", message, userId).catch(function (err) {
-        return console.error(err.toString());
-    });
+    if (message.trim() !== "") { 
+        connection.invoke("SendDirectMessage", message, userId).catch(function (err) {
+            return console.error(err.toString());
+        });
+        document.getElementById("messageInput").value = ''; 
+    }
     event.preventDefault();
+});
+
+document.getElementById("messageInput").addEventListener("keypress", function (event) {
+    if (event.key === "Enter") {
+        document.getElementById("sendButton").click();
+        event.preventDefault();
+    }
 });

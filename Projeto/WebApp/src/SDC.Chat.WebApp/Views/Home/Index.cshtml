@@ -1,34 +1,54 @@
 ﻿@model HomeModel
 
 @{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Página inicial";
 }
 
-<form method="post" asp-action="DirectMessage">
-
-    <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
-    <div class="form-floating mb-3">
-        <input asp-for="UserEmail" class="form-control" aria-required="true" placeholder="nome@email.com" data-val="false" />
-        <label asp-for="UserEmail">Email</label>
-        <span asp-validation-for="UserEmail" class="text-danger"></span>
+<div class="container mt-4">
+    <nav>
+        <div class="nav nav-tabs" id="nav-tab" role="tablist">
+            <button class="nav-link active" id="nav-usuario-tab" data-bs-toggle="tab" data-bs-target="#nav-usuario" type="button" role="tab" aria-controls="nav-usuario" aria-selected="true">Buscar Usuário</button>
+            <button class="nav-link" id="nav-sala-tab" data-bs-toggle="tab" data-bs-target="#nav-sala" type="button" role="tab" aria-controls="nav-sala" aria-selected="false">Buscar Sala</button>
+        </div>
+    </nav>
+    <div class="tab-content mt-4" id="nav-tabContent">
+        <div class="tab-pane fade show active" id="nav-usuario" role="tabpanel" aria-labelledby="nav-usuario-tab">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h2 class="card-title">Buscar Usuário</h2>
+                    <form method="post" asp-action="DirectMessage">
+                        <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
+                        <div class="form-floating mb-3">
+                            <input asp-for="UserEmail" class="form-control" aria-required="true" placeholder="nome@email.com" data-val="false" />
+                            <label asp-for="UserEmail">Email</label>
+                            <span asp-validation-for="UserEmail" class="text-danger"></span>
+                        </div>
+                        <div class="d-flex justify-content-center">
+                            <button id="registerSubmit" type="submit" class="btn btn-w50 btn-primary">Buscar usuário</button>
+                        </div>
+                       
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="tab-pane fade" id="nav-sala" role="tabpanel" aria-labelledby="nav-sala-tab">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h2 class="card-title">Buscar Sala</h2>
+                    <form method="post" asp-action="Group">
+                        <div class="form-floating mb-3 ">
+                            <input asp-for="Room" class="form-control" autocomplete="new-password" aria-required="true" placeholder="sala" data-val="false" />
+                            <label asp-for="Room">Sala</label>
+                            <span asp-validation-for="Room" class="text-danger"></span>
+                        </div>
+                        <div class="d-flex justify-content-center">
+                            <button id="registerSubmit" type="submit" class="btn btn-w50 btn-primary">Buscar sala</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
     </div>
-    
-    <button id="registerSubmit" type="submit" class="btn btn-lg btn-primary">Buscar usuário</button>
-</form>
-
-<div style="margin-top:20px;"></div>
-
-<form method="post" asp-action="Group">
-    <div class="form-floating mb-3">
-        <input asp-for="Room" class="form-control" autocomplete="new-password" aria-required="true" placeholder="sala" data-val="false" />
-        <label asp-for="Room">Sala</label>
-        <span asp-validation-for="Room" class="text-danger"></span>
-    </div>
-    <button id="registerSubmit" type="submit" class="btn btn-lg btn-primary">Buscar sala</button>
-</form>
+</div>
 
 <script src="~/lib/jquery/dist/jquery.js"></script>
-
-@* @section Scripts {
-    <partial name="_ValidationScriptsPartial" />
-} *@
